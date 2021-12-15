@@ -1,0 +1,77 @@
+$form-adaptive-label-focus-colour:  #0091da;
+$form-adaptive-label-success-colour: green;
+$error-colour: #f00;
+
+
+
+.typo{
+
+    &__input{
+        box-sizing: border-box;
+        width: 100%;
+        margin: 1em 0 1em;
+        padding: 6px;
+        border: 1px solid #bababa;
+        border-radius: 3px;
+        background: #fff;
+        font-size: 16px;
+        resize: none;
+        outline: none;
+        height: calc(3em + 2px);
+        transition: border-color 0.3s;
+        &:focus,
+        &:active {
+            transition-duration: 0.2s;
+            outline: none !important;
+            border-color: $form-adaptive-label-focus-colour;
+            + .typo__label[placeholder]:before {
+                    color:$form-adaptive-label-focus-colour;
+                }
+        }
+    }
+    &__label{
+        &.adaptive__label{
+            &:before, &:after{
+                position: absolute;
+                line-height: 1.25em;
+                display: inline-block;
+                margin: 0 calc(0.5em + 2px);
+                padding: 0 2px;
+                white-space: nowrap;
+                color: #7d7d7d;
+                background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+                background-size: 100% 5px;
+                background-repeat: no-repeat;
+                background-position: center;
+                left: 15px;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+            &:before{
+                content: attr(placeholder);
+                top: 8px;
+            }
+            &:after{
+                content: attr(alt);
+                bottom: 8px;
+                transition: transform 0.3s;
+                transform: translateY(calc(100% + 6px));
+            }
+        }
+    }
+    &.error{
+        .typo__input{
+            border-color: $error-colour;
+        }
+        .typo__label{
+            &.adaptive__label{
+                &:before, &:after{
+                    color: $error-colour;
+                }
+                &:after{
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
