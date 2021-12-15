@@ -4,6 +4,10 @@
   "description": "",
   "author": "TallmanCode",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tallmancode/TmcTypo"
+  },
   "main": "dist/tmc-typo.ssr.js",
   "browser": "dist/tmc-typo.esm.js",
   "module": "dist/tmc-typo.esm.js",
