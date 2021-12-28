@@ -16,6 +16,7 @@ const install = function installTmcTypo(app, options) {
   }
 
   Object.entries(components).forEach(([componentName, component]) => {
+
     app.component(componentName, component);
   });
 

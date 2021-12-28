@@ -5,6 +5,12 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ServeDev',
+    data(){
+      return{
+          error: '',
+          selectValue:  null
+      }
+    }
   // components: {
   //  TmcTypoSample,
   // }
@@ -14,5 +20,14 @@ export default defineComponent({
 <template>
   <div id="app">
       <typo-input :placeholder="'Enter Text'" :name="'first_name'"></typo-input>
+      <typo-select v-model="selectValue"
+                   :options="[
+                       {name: 'test'},
+                       {name: 'test2'}
+                   ]"
+                   :error="error"
+                   :valueBy="'name'"
+                   :placeholder="'Restaurant'"
+      />
   </div>
 </template>
