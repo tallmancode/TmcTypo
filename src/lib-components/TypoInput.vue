@@ -31,7 +31,7 @@ export default {
             type: String
         },
         error: {
-            type: String
+            type: [String, Boolean]
         }
     },
     data() {
@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .typo {
     position: relative;
 }

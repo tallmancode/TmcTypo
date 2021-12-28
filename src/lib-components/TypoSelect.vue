@@ -64,7 +64,7 @@ export default {
             default: 'hydra:member',
         },
         error: {
-            type: String
+            type: [String, Boolean]
         },
         options: {
             type: Array,
@@ -208,7 +208,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .expand-enter-active,
 .expand-leave-active {
     transition: height 1s ease-in-out;
@@ -260,7 +260,6 @@ export default {
     list-style: none;
     padding-left: 0;
     margin-bottom: 0;
-    padding-bottom: 10px;
     border: 1px solid #bababa;
     border-radius: 3px;
     overflow: visible;
@@ -301,22 +300,39 @@ export default {
     transition: color 0.3s;
 }
 .typo__label.adaptive__label:before{
+    visibility: visible;
     content: attr(placeholder);
     top: 8px;
 }
 .typo__label.adaptive__label:after{
+    visibility: hidden;
     content: attr(alt);
     bottom: 8px;
     transition: transform 0.3s;
     transform: translateY(calc(100% + 6px));
 }
-.typo__label.adaptive__label.error .typo-select__toggle input {
-    border-color: #f00;
-}
-.typo__label.adaptive__label.error .typo__label.adaptive__label:before, .typo__label.adaptive__label.error .typo__label.adaptive__label:after{
-    color: #f00;
-}
-.typo__label.adaptive__label.error .typo__label.adaptive__label:after{
+
+.typo.error .typo__label .typo__label.adaptive__label:after{
+    visibility: visible;
     transform: translateY(0);
+}
+.typo{
+    &.error{
+        .typo-select__toggle{
+            input{
+                border-color: #f00;
+            }
+        }
+        .typo__label{
+            &.adaptive__label{
+                &:before,&:after{
+                    color: #f00;
+                }
+                &:after{
+                    visibility: visible;
+                }
+            }
+        }
+    }
 }
 </style>
