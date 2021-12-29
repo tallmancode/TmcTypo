@@ -204,6 +204,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../scss/typo";
 .typo-select{
     box-sizing: border-box;
     position: relative;

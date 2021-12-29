@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../scss/typo";
 .typo{
     .typo__input{
         box-sizing: border-box;

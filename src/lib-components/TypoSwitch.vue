@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@import "../scss/typo";
 .typo-switch {
     min-height: 1rem * 1.5;
     margin-bottom: 1rem;
