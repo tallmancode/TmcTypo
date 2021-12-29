@@ -1,0 +1,73 @@
+//$primary: #F9A823;
+//$primary-hover:#FBC772;
+//
+//$secondary: #b6ffed;
+//$secondary-hover: #92BAFC;
+//
+//$accent: #6BBAA7;
+//$accent-hover: #82D9FC;
+//
+//$success: #64fcc9;
+//$success-hover:#81FCC9;
+//
+//$danger: #FA2333;
+//$danger-hover:#FC818A;
+//
+//$input-border-color: #bababa;
+
+$primary: #23e6ff;
+$primary-hover: #03A6BBFF;
+
+$secondary:  #d176d5;
+$secondary-hover: #A423A9FF;
+
+$accent: #ffb942;
+$accent-hover: #BD7F0FFF;
+
+$success: #64fcc9;
+$success-hover:#81FCC9;
+
+$danger: #FA2333;
+$danger-hover:#FC818A;
+
+$input-border-color: #bababa;
+
+$link-color: $accent;
+
+//font
+$font-family: "Roboto", sans-serif;
+
+$sm-space : 8px;
+$md-space : 16px;
+$lg-space : 24px;
+$xl-space : 32px;
+
+//Z-index
+$colour-picker: 30;
+$slide-index: 99;
+$header-index: 101;
+$sidebar-index : 103;
+$loading-index: 999;
+
+//Header
+$header-colour: transparent;
+$header-height: 85px;
+$header-height-sm: 50px;
+
+$header-padding: $sm-space 0;
+$header-top-padding: $header-padding;
+$menu-header-height: 70px;
+
+$nav-toggle-font-size: 2.3rem;
+$admin-header-height: 50px;
+$admin-header-height-md : 70px;
+
+$notify-height: 15px;
+$notify-header-height: $admin-header-height + $notify-height;
+
+//inputs
+$input-border-radius: 3px;
+
+//scaffold-page
+$scaffold-page-padding-y: $md-space;
+$scaffold-page-padding-x: $md-space;

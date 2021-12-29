@@ -1,0 +1,295 @@
+$escaped-characters: ( //('%','%25'),  // Encode "%" first, otherwise the "%" from encoded code would be encoded again (which would be bad)
+        ('<','%3C'),
+        ('>','%3E'),
+  //('"','%22'),  // Replace " with ' because that's shorter than %22 and normally working
+        ('"','%22'),
+        ('#','%23'),
+        ('&','%26')
+  // Here are a few more characters you could encode
+  //(' ','%20'),
+  //('!','%21'),
+  //('$','%24'),
+  //(',','%27'),
+  //('(','%28'),
+  //(')','%29'),
+  //('*','%2A'),
+  //('+','%2B'),
+  //('"','%2C'),
+  //('/','%2F'),
+  //(':','%3A'),
+  //(';','%3B'),
+  //('=','%3D'),
+  //('?','%3F'),
+  //('@','%40'),
+  //('[','%5B'),
+  //(']','%5D'),
+  //('^','%5E'),
+  //('`','%60'),
+  //('{','%7B'),
+  //('|','%7C'),
+  //('}','%7D'),
+  //('~','%7E'),
+  //(',','%E2%80%9A'),
+  //('\\','%5C'),
+  //('_','%5F'),
+  //('-','%2D'),
+  //('.','%2E'),
+  // ('\','%5C'),
+  // (' ','%7F'),
+  // ('`','%E2%82%AC'),
+  //('ƒ','%C6%92'),
+  //('„','%E2%80%9E'),
+  //('…','%E2%80%A6'),
+  //('†','%E2%80%A0'),
+  //('‡','%E2%80%A1'),
+  //('ˆ','%CB%86'),
+  //('‰','%E2%80%B0'),
+  //('Š','%C5%A0'),
+  //('‹','%E2%80%B9'),
+  //('Œ','%C5%92'),
+  //('','%C5%8D'),
+  //('Ž','%C5%BD'),
+  //('','%8F'),
+  //('','%C2%90'),
+  //(','%'E2%80%98'),
+  //(','%'E2%80%99'),
+  //('“','%E2%80%9C'),
+  //('”','%E2%80%9D'),
+  //('•','%E2%80%A2'),
+  //('–','%E2%80%93'),
+  //('—','%E2%80%94'),
+  //('˜','%CB%9C'),
+  //('™','%E2%84'),
+  //('š','%C5%A1'),
+  //('›','%E2%80'),
+  //('œ','%C5%93'),
+  //('','%9D'),
+  //('ž','%C5%BE'),
+  //('Ÿ','%C5%B8'),
+  //(' ','%C2%A0'),
+  //('¡','%C2%A1'),
+  //('¢','%C2%A2'),
+  //('£','%C2%A3'),
+  //('¤','%C2%A4'),
+  //('¥','%C2%A5'),
+  //('¦','%C2%A6'),
+  //('§','%C2%A7'),
+  //('¨','%C2%A8'),
+  //('©','%C2%A9'),
+  //('ª','%C2%AA'),
+  //('«','%C2%AB'),
+  //('¬','%C2%AC'),
+  //(','%'C2%AD'),
+  //('®','%C2%AE'),
+  //('¯','%C2%AF'),
+  //('°','%C2%B0'),
+  //('±','%C2%B1'),
+  //('²','%C2%B2'),
+  //('³','%C2%B3'),
+  //('´','%C2%B4'),
+  //('µ','%C2%B5'),
+  //('¶','%C2%B6'),
+  //('·','%C2%B7'),
+  //('¸','%C2%B8'),
+  //('¹','%C2%B9'),
+  //('º','%C2%BA'),
+  //('»','%C2%BB'),
+  //('¼','%C2%BC'),
+  //('½','%C2%BD'),
+  //('¾','%C2%BE'),
+  //('¿','%C2%BF'),
+  //('À','%C3%80'),
+  //('Á','%C3%81'),
+  //('Â','%C3%82'),
+  //('Ã','%C3%83'),
+  //('Ä','%C3%84'),
+  //('Å','%C3%85'),
+  //('Æ','%C3%86'),
+  //('Ç','%C3%87'),
+  //('È','%C3%88'),
+  //('É','%C3%89'),
+  //('Ê','%C3%8A'),
+  //('Ë','%C3%8B'),
+  //('Ì','%C3%8C'),
+  //('Í','%C3%8D'),
+  //('Î','%C3%8E'),
+  //('Ï','%C3%8F'),
+  //('Ð','%C3%90'),
+  //('Ñ','%C3%91'),
+  //('Ò','%C3%92'),
+  //('Ó','%C3%93'),
+  //('Ô','%C3%94'),
+  //('Õ','%C3%95'),
+  //('Ö','%C3%96'),
+  //('×','%C3%97'),
+  //('Ø','%C3%98'),
+  //('Ù','%C3%99'),
+  //('Ú','%C3%9A'),
+  //('Û','%C3%9B'),
+  //('Ü','%C3%9C'),
+  //('Ý','%C3%9D'),
+  //('Þ','%C3%9E'),
+  //('ß','%C3%9F'),
+  //('à','%C3%A0'),
+  //('á','%C3%A1'),
+  //('â','%C3%A2'),
+  //('ã','%C3%A3'),
+  //('ä','%C3%A4'),
+  //('å','%C3%A5'),
+  //('æ','%C3%A6'),
+  //('ç','%C3%A7'),
+  //('è','%C3%A8'),
+  //('é','%C3%A9'),
+  //('ê','%C3%AA'),
+  //('ë','%C3%AB'),
+  //('ì','%C3%AC'),
+  //('í','%C3%AD'),
+  //('î','%C3%AE'),
+  //('ï','%C3%AF'),
+  //('ð','%C3%B0'),
+  //('ñ','%C3%B1'),
+  //('ò','%C3%B2'),
+  //('ó','%C3%B3'),
+  //('ô','%C3%B4'),
+  //('õ','%C3%B5'),
+  //('ö','%C3%B6'),
+  //('÷','%C3%B7'),
+  //('ø','%C3%B8'),
+  //('ù','%C3%B9'),
+  //('ú','%C3%BA'),
+  //('û','%C3%BB'),
+  //('ü','%C3%BC'),
+  //('ý','%C3%BD'),
+  //('þ','%C3%BE'),
+  //('ÿ','%C3%BF')
+);
+@function shift-color($color, $weight) {
+  //@return if($weight > 0, shade-color($color, $weight), tint-color($color, -$weight));
+}
+
+@function divide($dividend, $divisor, $precision: 10) {
+  $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1);
+  $dividend: abs($dividend);
+  $divisor: abs($divisor);
+  @if $dividend == 0 {
+    @return 0;
+  }
+  @if $divisor == 0 {
+    @error "Cannot divide by 0";
+  }
+  $remainder: $dividend;
+  $result: 0;
+  $factor: 10;
+  @while ($remainder > 0 and $precision >= 0) {
+    $quotient: 0;
+    @while ($remainder >= $divisor) {
+      $remainder: $remainder - $divisor;
+      $quotient: $quotient + 1;
+    }
+    $result: $result * 10 + $quotient;
+    $factor: $factor * .1;
+    $remainder: $remainder * 10;
+    $precision: $precision - 1;
+    @if ($precision < 0 and $remainder >= $divisor * 5) {
+      $result: $result + 1;
+    }
+  }
+  $result: $result * $factor * $sign;
+  $dividend-unit: unit($dividend);
+  $divisor-unit: unit($divisor);
+  $unit-map: (
+          "px": 1px,
+          "rem": 1rem,
+          "em": 1em,
+          "%": 1%
+  );
+  @if ($dividend-unit != $divisor-unit and map-has-key($unit-map, $dividend-unit)) {
+    $result: $result * map-get($unit-map, $dividend-unit);
+  }
+  @return $result;
+}
+
+// @return {String} - Updated string
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+// See https://codepen.io/kevinweber/pen/dXWoRw
+//
+// Requires the use of quotes around data URIs.
+@function escape-svg($string) {
+  @if str-index($string, "data:image/svg+xml") {
+    @each $char, $encoded in $escaped-characters {
+      // Do not escape the url brackets
+      @if str-index($string, "url(") == 1 {
+        $string: url("#{str-replace(str-slice($string, 6, -3), $char, $encoded)}");
+      } @else {
+        $string: str-replace($string, $char, $encoded);
+      }
+    }
+  }
+
+  @return $string;
+}
+
+// Helper function to replace negative values with 0
+@function valid-radius($radius) {
+  $return: ();
+  @each $value in $radius {
+    @if type-of($value) == number {
+      $return: append($return, max(#{$value}, 0));
+    } @else {
+      $return: append($return, $value);
+    }
+  }
+  @return $return;
+}
+
+// scss-docs-start color-functions
+// Tint a color: mix a color with white
+@function tint-color($color, $weight) {
+  @return mix(white, $color, $weight);
+}
+
+// Return valid calc
+@function add($value1, $value2, $return-calc: true) {
+  @if $value1 == null {
+    @return $value2;
+  }
+
+  @if $value2 == null {
+    @return $value1;
+  }
+
+  @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
+    @return $value1 + $value2;
+  }
+
+  @return if($return-calc == true, calc(#{$value1} + #{$value2}), $value1 + unquote(" + ") + $value2);
+}
+
+@function subtract($value1, $value2, $return-calc: true) {
+  @if $value1 == null and $value2 == null {
+    @return null;
+  }
+
+  @if $value1 == null {
+    @return -$value2;
+  }
+
+  @if $value2 == null {
+    @return $value1;
+  }
+
+  @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
+    @return $value1 - $value2;
+  }
+
+  @return if($return-calc == true, calc(#{$value1} - #{$value2}), $value1 + unquote(" - ") + $value2);
+}
