@@ -1,0 +1,46 @@
+.typo {
+    position: relative;
+    .typo__label{
+        &:before, &:after{
+            position: absolute;
+            line-height: 1.25em;
+            display: inline-block;
+            margin: 0 calc(0.5em + 2px);
+            padding: 0 2px;
+            white-space: nowrap;
+            color: #7d7d7d;
+            background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+            background-size: 100% 5px;
+            background-repeat: no-repeat;
+            background-position: center;
+            left: 0;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        &:before{
+            content: attr(placeholder);
+            top: 8px;
+        }
+        &:after{
+            content: attr(alt);
+            bottom: 8px;
+            transition: transform 0.3s;
+            transform: translateY(calc(100% + 6px));
+            visibility: hidden;
+        }
+    }
+    &.error{
+        .typo__input{
+            border-color: #f00;
+        }
+        .typo__label{
+            &:before, &:after{
+                color: #f00;
+            }
+            &:after{
+                transform: translateY(0);
+                visibility: visible;
+            }
+        }
+    }
+}
