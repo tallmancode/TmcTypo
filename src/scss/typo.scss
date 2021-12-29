@@ -16,6 +16,7 @@
             left: 0;
             font-size: 14px;
             transition: color 0.3s;
+            z-index: 9;
         }
         &:before{
             content: attr(placeholder);
@@ -43,4 +44,42 @@
             }
         }
     }
+
+    .clear__button{
+        height: 25px;
+        width: 25px;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0;
+        visibility: hidden;
+        transition: visibility 0.3s ease-in-out;
+        &-icon{
+            display: block;
+            height: 25px;
+            width: 25px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease-in-out;
+            &:before{
+                content: '\00d7'
+            }
+        }
+        &:hover{
+            visibility: visible;
+            .clear__button-icon{
+                color: #f00;
+            }
+        }
+    }
+    &.open{
+        .clear__button{
+            visibility: hidden;
+        }
+    }
+
 }

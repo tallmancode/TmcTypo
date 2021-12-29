@@ -33,6 +33,7 @@
                                :error="selectOptions.error"
                                :valueBy="'name'"
                                :placeholder="'Select Input'"
+                               @clear:errorValue="selectOptions.error = false"
                   />
               </div>
               <div class="col-6">

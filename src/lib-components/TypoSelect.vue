@@ -1,17 +1,25 @@
 <template>
-    <div :class="['typo typo-select', $typo.globalOptions.wrapperClass , {'error': errorProxy, 'disabled' : disabled || loading}]"
+    <div :class="[
+            'typo typo-select',
+            $typo.globalOptions.wrapperClass ,
+            {'error': errorProxy, 'disabled' : disabled || loading, 'open' : isActive}
+        ]"
          @focus="activate"
          @focusin="activate"
          @focusout="deactivate">
-        <label :alt="errorProxy" :placeholder="placeholder" class="typo__label"></label>
+        <label :alt="errorProxy" :placeholder="placeholder" class="typo__label"/>
         <div class="typo-select__toggle">
             <input ref="input" :placeholder="inputPlaceholder" readonly type="text">
+            <button class="clear__button" type="button" @mousedown.prevent="clearSelect">
+                <i class="clear__button-icon"></i>
+            </button>
+
         </div>
         <height-transition>
             <div ref="dropdown" class="typo-select__dropdown" v-if="showOptions" @mouseover="hovered = true" @mouseout="hovered = false">
                 <ul class="typo-select__dropdown-list" >
                     <li v-for="option in optionsProxy" @mousedown="selectValue(option)">
-                        {{ option.name }}
+                        {{ option[labelBy] }}
                     </li>
                 </ul>
             </div>
@@ -27,6 +35,10 @@ export default {
     props: {
         modelValue: {
             type: [String, Object, Array]
+        },
+        labelBy: {
+            type: String,
+            default: 'name'
         },
         valueBy: {
             type: [String, Boolean],
@@ -79,7 +91,8 @@ export default {
             optionsProxy : this.options,
             showOptions: false,
             loading: false,
-            hovered: false
+            hovered: false,
+            isActive: false
         }
     },
     mounted() {
@@ -89,26 +102,31 @@ export default {
         }
     },
     methods: {
+        clearSelect() {
+            this.setPlaceholder()
+            this.errorProxy = false
+            this.$emit('update:modelValue', null)
+            this.$emit('clear:errorValue')
+        },
         setValuePlaceholder(){
             if(this.valueProxy !== null && this.optionsProxy !== null){
                 let selectedOption = this.optionsProxy.find(op => op[this.valueBy] === this.valueProxy)
-                this.setPlaceholder(selectedOption.name)
+                this.setPlaceholder(selectedOption[this.labelBy])
             }
         },
         selectValue(value){
-            if(this.valueBy ? value[this.valueBy] : value === this.modelValue){
+            if(this.valueBy ? value[this.valueBy] === this.modelValue : value === this.modelValue){
                 this.errorProxy = this.error
             }else{
-                this.errorProxy = ''
+                this.$emit('clear:errorValue')
+                this.errorProxy = false
             }
             this.$emit('update:modelValue', this.valueBy ? value[this.valueBy] : value)
-            this.setPlaceholder(value.name)
-        },
-        handleFocus() {
-            // console.log('sue')
+            this.setPlaceholder(value[this.labelBy])
         },
         activate(event) {
             if(this.disabled) return;
+            this.isActive = true;
             const input = event.target;
             if (this.searchable) {
                 input.removeAttribute('readonly')
@@ -125,6 +143,7 @@ export default {
         },
         deactivate(event) {
             const input = event.target;
+            this.isActive = false;
             if (this.searchable) {
                 input.setAttribute('readonly', true)
                 if(this.valueProxy !== null){
@@ -159,7 +178,11 @@ export default {
 
         },
         setPlaceholder(val){
-            this.$refs.input.setAttribute('placeholder', val)
+            if(val){
+                this.$refs.input.setAttribute('placeholder', val)
+            }else{
+                this.$refs.input.setAttribute('placeholder', this.inputPlaceholder)
+            }
         }
     },
     watch: {
@@ -188,6 +211,7 @@ export default {
     .typo-select{
         &__toggle{
             cursor: pointer;
+            position: relative;
             input{
                 box-sizing: border-box;
                 width: 100%;
@@ -204,6 +228,7 @@ export default {
                 &[readonly]{
                     cursor: pointer;
                 }
+
             }
         }
         &__dropdown{
@@ -238,6 +263,15 @@ export default {
                         cursor: pointer;
                         background-color: #dbdada;
                     }
+                }
+            }
+        }
+    }
+    &:not(.open){
+        .typo-select__toggle{
+            input{
+                &:hover + .clear__button{
+                    visibility: visible;
                 }
             }
         }
