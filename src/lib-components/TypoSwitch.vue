@@ -55,69 +55,65 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/typo-varibales";
-@import "assets/scss/vue-helper";
 
-$typo-switch-height: 30px;
-$typo-switch-width: 50px;
-$typo-switch-radius: 15px;
 .typo-switch {
-    min-height: $form-check-min-height;
-    margin-bottom: $form-check-margin-bottom;
-    padding-left: $form-switch-padding-start;
+    min-height: 1rem * 1.5;
+    margin-bottom: 1rem;
+    padding-left: 1em + .5em;
     display: flex;
     align-items: center;
     .typo-switch__label {
         margin-left: 1rem;
-        color: $form-check-label-color;
-        cursor: $form-check-label-cursor;
     }
     .typo-switch__input {
         float: left;
-        width: $typo-switch-width;
-        height: $typo-switch-height;
+        width: 30px;
+        height: 17px;
         margin-top: 0;
         vertical-align: top;
-        background-color: $form-check-input-bg;
+        background-color: #fff;
         background-repeat: no-repeat;
         background-size: contain;
-        border: $form-check-input-border;
+        border: 1px solid #809fb8;
         appearance: none;
-        color-adjust: exact; // Keep themed appearance for print
-        margin-left: $form-switch-padding-start * -1;
-        background-image: escape-svg($form-switch-bg-image);
+        color-adjust: exact;
+        margin-left: 1.5em * -1;
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba(0, 0, 0, .25)'/></svg>");
         background-position: left center;
-        border-radius: $typo-switch-radius;
-        @include transition($form-switch-transition);
-
+        border-radius: 15px;
+        transition: background-position .15s ease-in-out;
+        &.typo-switch__lg{
+            width: 50px;
+            height: 25px;
+        }
         &:active {
-            filter: $form-check-input-active-filter;
+            filter: brightness(90%);
         }
 
         &:focus {
-            border-color: $form-check-input-focus-border;
+            border-color: #757575;
             outline: 0;
-            box-shadow: $form-check-input-focus-box-shadow;
-            background-image: escape-svg($form-switch-bg-image);
+            box-shadow: none;
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba(0, 0, 0, .25)'/></svg>");
         }
 
         &:checked {
-            background-color: $form-check-input-checked-bg-color;
-            border-color: $form-check-input-checked-border-color;
-            background-position: $form-switch-checked-bg-position;
-            background-image: escape-svg($form-switch-checked-bg-image);
+            background-color: #0091da;
+            border-color: #0091da;
+            background-position: right;
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba(255, 255, 255, 1)'/></svg>");
         }
 
         &:disabled {
             pointer-events: none;
             filter: none;
-            opacity: $form-check-input-disabled-opacity;
+            opacity: .5;
         }
 
         &[disabled],
         &:disabled {
             ~ .form-check-label {
-                opacity: $form-check-label-disabled-opacity;
+                opacity: .5;
             }
         }
     }

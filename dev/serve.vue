@@ -42,17 +42,32 @@
               </div>
           </div>
 
+          <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
+              <div class="col-12">
+                  <h3>Typo Switch</h3>
+              </div>
+              <div class="col-6">
+                  <typo-switch />
+              </div>
+              <div class="col-6">
+                  <button class="btn btn__accent" @click="toggleSelectClear">Clear Select</button>
+                  <button class="btn btn__primary" @click="toggleSelectError">Toggle Error</button>
+              </div>
+          </div>
+
       </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import TypoSwitch from "../src/lib-components/TypoSwitch";
 // Uncomment import and local "components" registration if library is not registered globally.
 // import { TmcTypoSample } from '@/entry.esm';
 
 export default defineComponent({
     name: 'ServeDev',
+    components: {TypoSwitch},
     data(){
         return{
             selectOptions: {
