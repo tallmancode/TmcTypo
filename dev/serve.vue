@@ -47,7 +47,7 @@
                   <h3>Typo Switch</h3>
               </div>
               <div class="col-6">
-                  <typo-switch />
+                  <typo-switch :label="'Typo Switch'"/>
               </div>
               <div class="col-6">
                   <button class="btn btn__accent" @click="toggleSelectClear">Clear Select</button>
@@ -55,6 +55,22 @@
               </div>
           </div>
 
+          <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
+              <div class="col-12">
+                  <h3>Typo Textarea</h3>
+              </div>
+              <div class="col-6">
+                  <typo-textarea :name="'typo-textarea'"
+                                 :placeholder="'Textarea input'"
+                                 :error="textareaOptions.error"
+                                 v-model="textareaOptions.value"
+                                 @clear:errorValue="textareaOptions.error = false"/>
+              </div>
+              <div class="col-6">
+                  <button class="btn btn__accent" @click="toggleTextareaClear">Clear Select</button>
+                  <button class="btn btn__primary" @click="toggleTextareaError">Toggle Error</button>
+              </div>
+          </div>
       </div>
   </div>
 </template>
@@ -77,10 +93,24 @@ export default defineComponent({
             inputOptions: {
                 error: false,
                 value:  null
+            },
+            textareaOptions: {
+                error: false,
+                value:  null
             }
         }
     },
     methods: {
+        toggleTextareaError(){
+            if(this.textareaOptions.error){
+                this.textareaOptions.error = false
+            }else{
+                this.textareaOptions.error = "Select Error"
+            }
+        },
+        toggleTextareaClear(){
+            this.textareaOptions.value = null
+        },
         toggleSelectError(){
             if(this.selectOptions.error){
                 this.selectOptions.error = false
