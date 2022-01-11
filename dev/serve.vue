@@ -71,6 +71,23 @@
                   <button class="btn btn__primary" @click="toggleTextareaError">Toggle Error</button>
               </div>
           </div>
+
+          <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
+              <div class="col-12">
+                  <h3>Typo AC</h3>
+              </div>
+              <div class="col-6">
+                  <typo-ac :placeholder="'Typo Auto Complete'"
+                           v-model="acOptions.value"
+                           @update:searchInput="initAcSearch"
+                           @click:out="clearAcSearch"
+                           :options="acOptions.options"/>
+              </div>
+              <div class="col-6">
+                  <button class="btn btn__accent" @click="toggleTextareaClear">Clear Auto Complete</button>
+                  <button class="btn btn__primary" @click="toggleTextareaError">Toggle Error</button>
+              </div>
+          </div>
       </div>
   </div>
 </template>
@@ -97,6 +114,11 @@ export default defineComponent({
             textareaOptions: {
                 error: false,
                 value:  null
+            },
+            acOptions: {
+                error: false,
+                value: null,
+                options: null
             }
         }
     },
@@ -130,6 +152,17 @@ export default defineComponent({
         },
         toggleInputClear(){
             this.inputOptions.value = null
+        },
+        initAcSearch(val){
+            this.acOptions.options = [
+                'Ac Option 1',
+                'Ac Option 2',
+                'Ac Option 3',
+                'Ac Option 4',
+            ]
+        },
+        clearAcSearch(){
+            this.acOptions.options = null
         }
     }
 });

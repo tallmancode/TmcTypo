@@ -1,0 +1,57 @@
+name: Symfony Dev Tests
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  symfony:
+    name: Symfony 5.0 (PHP ${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    steps:
+    #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+    # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+    # uses: shivammathur/setup-php@v2
+    - uses: shivammathur/setup-php@verbose
+      with:
+        php-version: '7.4'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+    - uses: actions/checkout@v2
+    - name: Copy .env.test.local
+      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+    - name: hosts
+      run: |
+        sudo echo "127.0.0.1 iofood.test" | sudo tee -a /etc/hosts
+        sudo echo "127.0.0.1 app.iofood.test" | sudo tee -a /etc/hosts
+        sudo echo "127.0.0.1 admin.iofood.test" | sudo tee -a /etc/hosts
+        sudo echo "127.0.0.1 menu.iofood.test" | sudo tee -a /etc/hosts
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Install NPM Dependencies
+      run: npm install
+    - name: Create Database
+      run: |
+        mkdir -p data
+        touch data/database.sqlite
+    - name: run NPM build
+      run: npm run build
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DATABASE_URL: "sqlite://%kernel.cache_dir%/data/database.sqlite"
+      run: vendor/bin/phpunit
+    - uses: actions/download-artifact@v2
+      with:
+        path: var/log
+    - name: Display structure of downloaded files
+      run: ls -a
+      working-directory: var/log

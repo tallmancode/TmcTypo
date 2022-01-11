@@ -3,5 +3,6 @@ import TypoInput from './TypoInput.vue';
 import TypoSelect from "./TypoSelect.vue";
 import TypoSwitch from "./TypoSwitch";
 import TypoTextarea from "./TypoTextarea";
+import TypoAc from "./TypoAc";
 
-export {TypoInput, TypoSelect, TypoSwitch, TypoTextarea}
+export {TypoInput, TypoSelect, TypoSwitch, TypoTextarea, TypoAc}
