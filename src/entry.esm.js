@@ -1,18 +1,14 @@
 
 // Import vue components
 import * as components from '@/lib-components/index';
+import optionsApi from "./optionsApi";
 
-const defaultOptions = {
-  wrapperClass: ''
-}
-
-// install function executed by Vue.use()
 const install = function installTmcTypo(app, options) {
 
-  let globalOptions = {...defaultOptions, ...options};
+  let globalOptions = {...optionsApi, ...options};
 
   app.config.globalProperties.$typo = {
-    globalOptions : globalOptions
+    options: globalOptions
   }
 
   Object.entries(components).forEach(([componentName, component]) => {

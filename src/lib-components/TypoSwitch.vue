@@ -1,7 +1,7 @@
 
 
 <template>
-    <div :class="['typo-switch', $typo.globalOptions.wrapperClass, wrapperClass, {'error': error}]">
+    <div :class="['typo-switch', wrapperClass, {'error': error}]">
         <input class="typo-switch__input"
                type="checkbox"
                v-model="checked"

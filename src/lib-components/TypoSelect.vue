@@ -1,7 +1,6 @@
 <template>
     <div :class="[
             'typo typo-select',
-            $typo.globalOptions.wrapperClass ,
             {'error': errorProxy, 'disabled' : disabled || loading, 'open' : isActive}
         ]"
          @focus="activate"

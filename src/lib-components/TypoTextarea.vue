@@ -1,5 +1,5 @@
 <template>
-    <div :class="['typo', $typo.globalOptions.wrapperClass, wrapperClass, {'error': errorProxy}]" >
+    <div :class="['typo', wrapperClass, {'error': errorProxy}]" >
         <textarea :id="id" v-model="valueProxy" :name="name" class="typo__textarea" @input="handleInput" :style="'min-height:'+height"></textarea>
         <label :alt="errorProxy" :for="id" :placeholder="placeholder" class="typo__label"/>
     </div>

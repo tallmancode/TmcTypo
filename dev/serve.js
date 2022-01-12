@@ -5,6 +5,8 @@ import Dev from './serve.vue';
 import TmcTypo from '@/entry.esm';
 
 const app = createApp(Dev);
-app.use(TmcTypo);
+app.use(TmcTypo, {
+    //label: 'above'
+});
 
 app.mount('#app');

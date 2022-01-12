@@ -3,23 +3,7 @@
 <template>
   <div id="app">
       <div class="container-fluid">
-          <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
-              <div class="col-12">
-                  <h3>Typo Input</h3>
-              </div>
-              <div class="col-6">
-                  <typo-input :error="inputOptions.error"
-                              v-model="inputOptions.value"
-                              :placeholder="'Text Input'"
-                              :name="'text_input'"
-                              @clear:errorValue="inputOptions.error = false"
-                  />
-              </div>
-              <div class="col-6">
-                  <button class="btn btn__accent" @click="toggleInputClear">Clear Input</button>
-                  <button class="btn btn__primary" @click="toggleInputError">Toggle Error</button>
-              </div>
-          </div>
+          <TypoInputExample/>
           <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
               <div class="col-12">
                   <h3>Typo Select</h3>
@@ -95,12 +79,11 @@
 <script>
 import { defineComponent } from 'vue';
 import TypoSwitch from "../src/lib-components/TypoSwitch";
-// Uncomment import and local "components" registration if library is not registered globally.
-// import { TmcTypoSample } from '@/entry.esm';
+import TypoInputExample from "./components/TypoInput/TypoInputExample";
 
 export default defineComponent({
     name: 'ServeDev',
-    components: {TypoSwitch},
+    components: {TypoSwitch, TypoInputExample},
     data(){
         return{
             selectOptions: {
@@ -143,16 +126,7 @@ export default defineComponent({
         toggleSelectClear(){
             this.selectOptions.value = null
         },
-        toggleInputError(){
-            if(this.inputOptions.error){
-                this.inputOptions.error = false
-            }else{
-                this.inputOptions.error = "Input Error"
-            }
-        },
-        toggleInputClear(){
-            this.inputOptions.value = null
-        },
+
         initAcSearch(val){
             this.acOptions.options = [
                 'Ac Option 1',
