@@ -4,6 +4,8 @@
   <div id="app">
       <div class="container-fluid">
           <TypoInputExample/>
+
+          <TypoTextareaExample/>
           <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
               <div class="col-12">
                   <h3>Typo Select</h3>
@@ -39,22 +41,6 @@
               </div>
           </div>
 
-          <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
-              <div class="col-12">
-                  <h3>Typo Textarea</h3>
-              </div>
-              <div class="col-6">
-                  <typo-textarea :name="'typo-textarea'"
-                                 :placeholder="'Textarea input'"
-                                 :error="textareaOptions.error"
-                                 v-model="textareaOptions.value"
-                                 @clear:errorValue="textareaOptions.error = false"/>
-              </div>
-              <div class="col-6">
-                  <button class="btn btn__accent" @click="toggleTextareaClear">Clear Select</button>
-                  <button class="btn btn__primary" @click="toggleTextareaError">Toggle Error</button>
-              </div>
-          </div>
 
           <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
               <div class="col-12">
@@ -80,10 +66,10 @@
 import { defineComponent } from 'vue';
 import TypoSwitch from "../src/lib-components/TypoSwitch";
 import TypoInputExample from "./components/TypoInput/TypoInputExample";
-
+import TypoTextareaExample from "./components/TypoTextarea/TypoTextareaExample";
 export default defineComponent({
     name: 'ServeDev',
-    components: {TypoSwitch, TypoInputExample},
+    components: {TypoSwitch, TypoInputExample, TypoTextareaExample},
     data(){
         return{
             selectOptions: {
@@ -106,16 +92,7 @@ export default defineComponent({
         }
     },
     methods: {
-        toggleTextareaError(){
-            if(this.textareaOptions.error){
-                this.textareaOptions.error = false
-            }else{
-                this.textareaOptions.error = "Select Error"
-            }
-        },
-        toggleTextareaClear(){
-            this.textareaOptions.value = null
-        },
+
         toggleSelectError(){
             if(this.selectOptions.error){
                 this.selectOptions.error = false

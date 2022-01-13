@@ -8,9 +8,7 @@
             <typo-input v-model="value"
                         v-model:error="error"
                         :name="'text_input'"
-                        :label="'Text Input'"
-                        :options="{labelType : 'overlay'}"
-            />
+                        :label="'Text Input'"/>
         </div>
         <div class="col-6">
             <button class="btn btn__accent" @click="toggleInputClear">Clear Input</button>
@@ -46,7 +44,7 @@ export default {
         },
         error(newValue, oldValue) {
             if (!newValue) {
-                console.log('%c Typo error cleared', 'color: #0a6fbf')
+                console.log('%c Typo input error cleared', 'color: #0a6fbf')
             }
         }
     }

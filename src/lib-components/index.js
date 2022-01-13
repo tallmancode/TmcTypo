@@ -2,7 +2,7 @@
 import TypoInput from './TypoInput/TypoInput.vue';
 import TypoSelect from "./TypoSelect.vue";
 import TypoSwitch from "./TypoSwitch";
-import TypoTextarea from "./TypoTextarea";
+import TypoTextarea from "./TypoTextarea/TypoTextarea.vue";
 import TypoAc from "./TypoAc";
 
 export {TypoInput, TypoSelect, TypoSwitch, TypoTextarea, TypoAc}

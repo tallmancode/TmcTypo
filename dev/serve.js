@@ -6,7 +6,7 @@ import TmcTypo from '@/entry.esm';
 
 const app = createApp(Dev);
 app.use(TmcTypo, {
-    //label: 'above'
+    //labelType: 'standard'
 });
 
 app.mount('#app');
