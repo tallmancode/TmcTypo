@@ -1,6 +1,7 @@
 export default {
     id: {
-        type: String
+        type: String,
+        default: 'typo_textarea_'+Math.random().toString(36).slice(2)
     },
     height: {
         type: String,

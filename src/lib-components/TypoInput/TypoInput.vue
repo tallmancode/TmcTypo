@@ -4,10 +4,17 @@
             computedOptions.labelType,
             {'error': errorValue},
         ]">
-        <label v-if="label" :data-error="errorValue" :for="id" :data-label="computedOptions.labelType === 'overlay' ? label : null" class="typo__label">
+        <label v-if="label"
+               :data-error="errorValue"
+               :for="id"
+               :data-label="computedOptions.labelType === 'overlay' ? label : null"
+               class="typo__label">
             {{ (computedOptions.labelType === 'standard'? label : '')}}
         </label>
-        <input :id="id" v-model="inputValue" :name="name" :type="type" class="typo__input">
+        <input :id="id"
+               v-model="inputValue"
+               :name="name"
+               :type="type" class="typo__input">
     </div>
 </template>
 
@@ -35,7 +42,6 @@ export default {
     },
     computed: {
         computedOptions(){
-            console.log(this.$typo.options)
             return {...this.$typo.options, ...this.options};
         }
     },
