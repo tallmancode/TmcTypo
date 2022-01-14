@@ -7,11 +7,9 @@
             <typo-select v-model="value"
                          v-model:error="error"
                          :labelBy="'strDrink'"
-                         :mode="'api'"
-                         :responseDataKey="'drinks'"
-                         :apiUrl="'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail'"
                          :placeholder="'-- options --'"
                          :label="'Select Input'"
+                         :method="getOptionsMethod"
             />
         </div>
         <div class="col-6">
@@ -37,10 +35,18 @@ export default {
                 {id : 5, name: 'Test Option 5', description : 'test object option' }
             ],
             stringOptions: [ 'Test Option 1', 'Test Option 2', 'Test Option 3', 'Test Option 4', 'Test Option 5' ],
-            apiOptions: []
+            apiOptions: [],
         }
     },
     methods: {
+        getOptionsMethod(){
+            return new Promise((resolve, reject) => {
+                axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail')
+                    .then((resp) => {
+                        resolve(resp.data.drinks)
+                    })
+            })
+        },
         toggleSelectError(){
             if(this.error){
                 this.error = false
@@ -50,6 +56,7 @@ export default {
         },
         toggleSelectClear(){
             this.value = null
+            this.error = false
         },
     },
     watch: {

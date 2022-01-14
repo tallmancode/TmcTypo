@@ -1,10 +1,7 @@
 export default {
     id: {
         type: String,
-        default: 'typo_input_'+Math.random().toString(36).slice(2)
-    },
-    modelValue: {
-        type: [String, Object, Array]
+        default: 'typo_ac_'+Math.random().toString(36).slice(2)
     },
     label: {
         type: [String, Boolean],
@@ -12,11 +9,18 @@ export default {
     },
     placeholder: {
         type: String,
-        default: '- select a option -'
+        default: 'Type to search'
     },
-    items: {
-        type: [Array],
-        default: []
+    // items: {
+    //     type: [Array],
+    //     default: []
+    // },
+    searchMethod: {
+        type: Function
+    },
+
+    modelValue: {
+        type: [String, Object, Array]
     },
     labelBy: {
         type: [String, Boolean],
@@ -29,16 +33,12 @@ export default {
     error: {
         type: [String, Boolean]
     },
-    disabled: {
-        type: Boolean,
-        default: false
-    },
-    method: {
-        type: Function
-    },
     options: {
-        type: [Object],
-        default: {}
+        type: Array,
+        default: []
     },
-
+    acDelay: {
+        type: Number,
+        default: 800
+    }
 }

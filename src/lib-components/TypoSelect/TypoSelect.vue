@@ -11,6 +11,7 @@
          @focusin="activate"
          @focusout="deactivate">
         <label v-if="label"
+               :for="id"
                :data-error="errorValue"
                :data-label="computedOptions.labelType === 'overlay' ? label : null"
                class="typo__label">
@@ -18,6 +19,7 @@
         </label>
         <div :class="['typo-select__toggle', {loading: loading}]">
             <input ref="input"
+                   :id="id"
                    :placeholder="loading ? '...loading options' : placeholder"
                    :value="labelBy && inputValue ? inputValue[labelBy] : inputValue"
                    readonly type="text" >
@@ -41,7 +43,7 @@
 <script>
 import HeightTransition from "../../components/tansitions/HeightTransition";
 import propsApi from "@/lib-components/TypoSelect/propsApi";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 const axios = require('axios').default;
 export default {
     name: "TypoSelect",
@@ -52,15 +54,14 @@ export default {
             set: (value) => emit('update:modelValue', value),
         });
 
-        let itemsValue =  []
+        let itemsValue =  ref([])
 
-        if(props.mode === 'data'){
+        if(!props.method){
            itemsValue =  computed({
                 get: () => props.items,
                 set: (value) => emit('update:items', value),
             });
         }
-
 
         const errorValue = computed({
             get: () => props.error,
@@ -82,22 +83,18 @@ export default {
             isActive: false
         }
     },
-    mounted() {
-        if (this.mode === 'api') {
-            this.loadApiData()
+    async mounted() {
+        if (this.method) {
+            this.toggleLoading()
+            await this.method().then((resp) => {
+                this.itemsValue = resp
+            })
+            .finally(() => {
+                this.toggleLoading()
+            })
         }
     },
     methods: {
-        loadApiData(){
-            this.toggleLoading();
-            axios.get(this.apiUrl)
-                .then((resp) => {
-                    this.itemsValue = resp.data[this.responseDataKey]
-                })
-                .finally(() => {
-                    this.toggleLoading();
-                })
-        },
         selectItem(selection){
             this.inputValue = selection
         },
@@ -123,6 +120,7 @@ export default {
             }
             this.showOptions = true
         },
+
         deactivate(event) {
             const input = event.target;
             this.isActive = false;
@@ -143,6 +141,7 @@ export default {
             }
             this.showOptions = false
         },
+
         toggleLoading(){
             this.loading = !this.loading
         },
@@ -215,7 +214,7 @@ export default {
             z-index: 99;
             margin: 0;
             padding: 0;
-            top: calc(3em + 23px);
+            top: calc(100% - 10px);
             box-sizing: border-box;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
