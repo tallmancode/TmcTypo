@@ -11,14 +11,9 @@ export default {
         type: String,
         default: 'Type to search'
     },
-    // items: {
-    //     type: [Array],
-    //     default: []
-    // },
     searchMethod: {
         type: Function
     },
-
     modelValue: {
         type: [String, Object, Array]
     },

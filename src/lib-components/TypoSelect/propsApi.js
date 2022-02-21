@@ -1,10 +1,8 @@
 export default {
+    modelValue: null,
     id: {
         type: String,
         default: 'typo_input_'+Math.random().toString(36).slice(2)
-    },
-    modelValue: {
-        type: [String, Object, Array]
     },
     label: {
         type: [String, Boolean],

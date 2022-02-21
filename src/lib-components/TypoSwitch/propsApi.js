@@ -1,13 +1,13 @@
 export default  {
-    label: {
-        type: [String, Boolean],
-        default: false
-    },
+    modelValue: null,
     id: {
         type: String,
         default: 'typo_switch_'+Math.random().toString(36).slice(2)
     },
-    modelValue: null,
+    label: {
+        type: [String, Boolean],
+        default: false
+    },
     name: {
         type: String
     },

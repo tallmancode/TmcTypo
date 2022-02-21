@@ -1,8 +1,5 @@
 export default  {
-    label: {
-        type: [String, Boolean],
-        default: false
-    },
+    modelValue: null,
     id: {
         type: String,
         default: 'typo_input_'+Math.random().toString(36).slice(2)
@@ -14,10 +11,9 @@ export default  {
             return ['text', 'password', 'number'].includes(value)
         }
     },
-    modelValue: null,
-    wrapperClass: {
-        type: String,
-        default: null
+    label: {
+        type: [String, Boolean],
+        default: false
     },
     name: {
         required: true,

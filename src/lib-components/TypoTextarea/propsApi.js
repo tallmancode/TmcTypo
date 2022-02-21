@@ -1,4 +1,5 @@
 export default {
+    modelValue: '',
     id: {
         type: String,
         default: 'typo_textarea_'+Math.random().toString(36).slice(2)
@@ -6,11 +7,6 @@ export default {
     height: {
         type: String,
         default: '250px'
-    },
-    modelValue: '',
-    wrapperClass: {
-        type: String,
-        default: null
     },
     label: {
         required: true,
