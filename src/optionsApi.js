@@ -1,3 +1,4 @@
 export default {
-    labelType: 'overlay'
+    labelType: 'overlay',
+    autocomplete: false
 }

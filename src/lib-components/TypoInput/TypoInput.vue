@@ -14,7 +14,8 @@
         <input :id="id"
                v-model="inputValue"
                :name="name"
-               :type="type" class="typo__input">
+               :type="type" class="typo__input"
+                :autocomplete="computedOptions.autocomplete ? 'on' : 'off'">
     </div>
 </template>
 
