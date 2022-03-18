@@ -21,7 +21,7 @@
             <input ref="input"
                    :id="id"
                    :placeholder="loading ? '...loading options' : placeholder"
-                   :value="labelBy && inputValue ? inputValue[labelBy] : inputValue"
+                   :value="labelBy && inputValue ? selectedObject[labelBy] : inputValue"
                    readonly type="text" >
             <button class="clear__button" type="button" @mousedown.prevent="clearSelect">
                 <i class="clear__button-icon"></i>
@@ -31,7 +31,7 @@
         <height-transition>
             <div ref="dropdown" class="typo-select__dropdown" v-if="showOptions" @mouseover="hovered = true" @mouseout="hovered = false">
                 <ul class="typo-select__dropdown-list" >
-                    <li v-for="item in itemsValue" @mousedown="selectItem(valueBy ? item[valueBy] : item)">
+                    <li v-for="item in itemsValue" @mousedown="selectItem(item)">
                         {{ labelBy ? item[labelBy] : item }}
                     </li>
                 </ul>
@@ -80,7 +80,8 @@ export default {
             showOptions: false,
             loading: false,
             hovered: false,
-            isActive: false
+            isActive: false,
+            selectedObject: false
         }
     },
     async mounted() {
@@ -93,16 +94,24 @@ export default {
                 this.toggleLoading()
             })
         }
+
+        if(this.inputValue){
+            if(this.valueBy){
+                this.selectedObject = this.itemsValue.find(item => item[this.valueBy] === this.inputValue)
+            }else{
+                this.selectedObject = this.inputValue
+            }
+        }
     },
     methods: {
         selectItem(selection){
-            this.inputValue = selection
+            this.selectedObject = selection
+            this.inputValue = this.valueBy ? selection[this.valueBy] : selection
         },
         clearSelect() {
             this.inputValue = null
             this.errorValue = false
         },
-
         activate(event) {
             if(this.disabled) return;
             this.isActive = true;
@@ -159,7 +168,7 @@ export default {
 .typo-select{
     box-sizing: border-box;
     position: relative;
-    z-index: 9;
+    //z-index: 9;
     .typo-select{
         &__toggle{
             cursor: pointer;

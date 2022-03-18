@@ -7,6 +7,7 @@
             <typo-select v-model="value"
                          v-model:error="error"
                          :labelBy="'strDrink'"
+                         :valueBy="'idDrink'"
                          :placeholder="'-- options --'"
                          :label="'Select Input'"
                          :method="getOptionsMethod"
