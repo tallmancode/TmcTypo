@@ -12,7 +12,7 @@
             {{ (computedOptions.labelType === 'standard'? label : '')}}
         </label>
         <div :class="['typo-ac__input-wrapper', {active : isActive || !selectedValue}]">
-            <div class="selection" @click="activate" v-html="selectedValue"></div>
+            <div class="selection" @click="activate" v-html="labelValue"></div>
             <input ref="input"
                    :placeholder="placeholder"
                    v-model="searchTerm"
@@ -76,7 +76,8 @@ export default {
             loading: false,
             hovered: false,
             isActive: false,
-            timer: false
+            timer: false,
+            selectedObject: null
         }
     },
     methods: {
@@ -100,7 +101,8 @@ export default {
         },
         selectItem(selection){
             this.searchTerm = null
-            this.selectedValue = selection
+            this.selectedObject = selection
+            this.selectedValue = this.valueBy ? selection[this.valueBy] : selection
         },
         activate(){
             this.isActive = true
@@ -127,6 +129,12 @@ export default {
     computed: {
         computedOptions(){
             return {...this.$typo.options, ...this.options};
+        },
+        labelValue(){
+            if(this.selectedValue){
+                return this.labelBy ? this.selectedValue[this.labelBy] : this.selectedValue
+            }
+            return null
         }
     }
 }

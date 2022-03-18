@@ -9,6 +9,7 @@
                      @update:searchTerm="initAcSearch"
                      @click:out="clearAcSearch"
                      v-model:error="error"
+                     :labelBy="'label'"
                     :searchMethod="test"/>
         </div>
         <div class="col-6">
@@ -32,10 +33,10 @@ export default {
         test(val){
             return new Promise(function(myResolve, myReject) {
                 myResolve([
-                    'Ac method return Option 1',
-                    'Ac method return Option 2',
-                    'Ac method return Option 3',
-                    'Ac method return Option 4',
+                    {label : 'Ac method return Option 1', value: 1},
+                    {label : 'Ac method return Option 2', value: 2},
+                    {label : 'Ac method return Option 3', value: 3},
+                    {label : 'Ac method return Option 4', value: 4},
                 ]); // when successful
                // myReject();  // when error
             });
