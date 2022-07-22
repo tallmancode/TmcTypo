@@ -37,8 +37,9 @@
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.0.11",
+    "axios": "^0.24.0",
     "cross-env": "^7.0.3",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "postcss": "^8.2.10",
     "rimraf": "^3.0.2",
     "rollup": "^2.52.8",
@@ -54,5 +55,8 @@
   },
   "engines": {
     "node": ">=12"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }

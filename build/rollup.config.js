@@ -81,7 +81,7 @@ const external = [
 const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
-  vue: 'Vue',
+  vue: 'Vue'
 };
 
 // Customize configs for individual targets

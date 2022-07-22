@@ -2,11 +2,16 @@
 // Import vue components
 import * as components from '@/lib-components/index';
 
+<<<<<<< Updated upstream
 const defaultOptions = {
   wrapperClass: ''
 }
 
 // install function executed by Vue.use()
+=======
+
+
+>>>>>>> Stashed changes
 const install = function installTmcTypo(app, options) {
 
   let globalOptions = {...defaultOptions, ...options};
@@ -19,7 +24,6 @@ const install = function installTmcTypo(app, options) {
 
     app.component(componentName, component);
   });
-
 
 };
 

@@ -1,6 +1,7 @@
 
 
 <template>
+<<<<<<< Updated upstream
   <div id="app">
       <div class="container-fluid">
           <div class="row" style="justify-content: center; align-items: center; border-bottom: 1px solid #ebebeb; padding-bottom: 16px">
@@ -57,6 +58,18 @@
 
       </div>
   </div>
+=======
+    <div id="app">
+        <div class="container-fluid">
+            <TypoSelectExample/>
+            <TypoAcExample/>
+            <TypoInputExample/>
+
+            <TypoTextareaExample/>
+            <TypoSwitchExample/>
+        </div>
+    </div>
+>>>>>>> Stashed changes
 </template>
 
 <script>
