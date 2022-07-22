@@ -48,8 +48,7 @@
     "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.45.1",
     "sass-loader": "^10.1.1",
-    "vue": "^3.0.5",
-    "axios": "^0.24.0"
+    "vue": "^3.0.5"
   },
   "peerDependencies": {
     "vue": "^3.0.5"
