@@ -1,25 +1,38 @@
 <template>
     <div :class="[
             'typo typo-select',
-            $typo.globalOptions.wrapperClass ,
-            {'error': errorProxy, 'disabled' : disabled || loading, 'open' : isActive}
+            {
+                'error': errorValue,
+                'disabled' : disabled || loading,
+                'open' : isActive
+            }
         ]"
          @focus="activate"
          @focusin="activate"
          @focusout="deactivate">
-        <label :alt="errorProxy" :placeholder="placeholder" class="typo__label"/>
-        <div class="typo-select__toggle">
-            <input ref="input" :placeholder="inputPlaceholder" readonly type="text">
+        <label v-if="label"
+               :for="id"
+               :data-error="errorValue"
+               :data-label="computedOptions.labelType === 'overlay' ? label : null"
+               class="typo__label">
+            {{ (computedOptions.labelType === 'standard'? label : '')}}
+        </label>
+        <div :class="['typo-select__toggle', {loading: loading}]">
+            <input ref="input"
+                   :id="id"
+                   :placeholder="loading ? '...loading options' : placeholder"
+                   :value="labelBy && inputValue ? selectedObject[labelBy] : inputValue"
+                   readonly type="text" >
             <button class="clear__button" type="button" @mousedown.prevent="clearSelect">
                 <i class="clear__button-icon"></i>
             </button>
-
+            <span class="typo-select__loading-indy"></span>
         </div>
         <height-transition>
             <div ref="dropdown" class="typo-select__dropdown" v-if="showOptions" @mouseover="hovered = true" @mouseout="hovered = false">
                 <ul class="typo-select__dropdown-list" >
-                    <li v-for="option in optionsProxy" @mousedown="selectValue(option)">
-                        {{ option[labelBy] }}
+                    <li v-for="item in itemsValue" @mousedown="selectItem(item)">
+                        {{ labelBy ? item[labelBy] : item }}
                     </li>
                 </ul>
             </div>
@@ -28,101 +41,76 @@
 </template>
 
 <script>
-import HeightTransition from "../components/tansitions/HeightTransition";
-
+import HeightTransition from "../../components/tansitions/HeightTransition";
+import propsApi from "@/lib-components/TypoSelect/propsApi";
+import {computed, ref} from "vue";
+const axios = require('axios').default;
 export default {
     name: "TypoSelect",
-    props: {
-        modelValue: {
-            type: [String, Object, Array]
-        },
-        labelBy: {
-            type: String,
-            default: 'name'
-        },
-        valueBy: {
-            type: [String, Boolean],
-            default: false
-        },
-        mode: {
-            type: String,
-            default: 'data',
-            validator(value) {
-                return ['data', 'api'].includes(value)
-            }
-        },
-        searchable: {
-            type: Boolean,
-            default: false
-        },
-        placeholder: {
-            required: true,
-            type: String,
-        },
-        inputPlaceholder: {
-            type: String,
-            default: 'Select a option'
-        },
-        apiUrl: {
-            type: String,
-            default: '',
-        },
-        responseDataLabel: {
-            type: String,
-            default: 'hydra:member',
-        },
-        error: {
-            type: [String, Boolean]
-        },
-        options: {
-            type: Array,
-            default: []
-        },
-        disabled: {
-            type: Boolean,
-            default: false
+    props: propsApi,
+    setup(props, {emit}) {
+        const inputValue = computed({
+            get: () => props.modelValue,
+            set: (value) => emit('update:modelValue', value),
+        });
+
+        let itemsValue =  ref([])
+
+        if(!props.method){
+           itemsValue =  computed({
+                get: () => props.items,
+                set: (value) => emit('update:items', value),
+            });
         }
+
+        const errorValue = computed({
+            get: () => props.error,
+            set: (value) => emit('update:error', value),
+        });
+
+        return {
+            inputValue,
+            itemsValue,
+            errorValue,
+        };
     },
     components: { 'height-transition' : HeightTransition },
     data() {
         return {
-            valueProxy : this.modelValue,
-            errorProxy: this.error,
-            optionsProxy : this.options,
             showOptions: false,
             loading: false,
             hovered: false,
-            isActive: false
+            isActive: false,
+            selectedObject: false
         }
     },
-    mounted() {
-        this.setValuePlaceholder();
-        if (this.mode === 'api') {
-            this.loadData()
+    async mounted() {
+        if (this.method) {
+            this.toggleLoading()
+            await this.method().then((resp) => {
+                this.itemsValue = resp
+            })
+            .finally(() => {
+                this.toggleLoading()
+            })
+        }
+
+        if(this.inputValue){
+            if(this.valueBy){
+                this.selectedObject = this.itemsValue.find(item => item[this.valueBy] === this.inputValue)
+            }else{
+                this.selectedObject = this.inputValue
+            }
         }
     },
     methods: {
+        selectItem(selection){
+            this.selectedObject = selection
+            this.inputValue = this.valueBy ? selection[this.valueBy] : selection
+        },
         clearSelect() {
-            this.setPlaceholder()
-            this.errorProxy = false
-            this.$emit('update:modelValue', null)
-            this.$emit('clear:errorValue')
-        },
-        setValuePlaceholder(){
-            if(this.valueProxy !== null && this.optionsProxy !== null){
-                let selectedOption = this.optionsProxy.find(op => op[this.valueBy] === this.valueProxy)
-                this.setPlaceholder(selectedOption[this.labelBy])
-            }
-        },
-        selectValue(value){
-            if(this.valueBy ? value[this.valueBy] === this.modelValue : value === this.modelValue){
-                this.errorProxy = this.error
-            }else{
-                this.$emit('clear:errorValue')
-                this.errorProxy = false
-            }
-            this.$emit('update:modelValue', this.valueBy ? value[this.valueBy] : value)
-            this.setPlaceholder(value[this.labelBy])
+            this.inputValue = null
+            this.errorValue = false
         },
         activate(event) {
             if(this.disabled) return;
@@ -137,10 +125,11 @@ export default {
                 }
             }
             if(this.error) {
-                this.errorProxy = null
+                this.errorValue = null
             }
             this.showOptions = true
         },
+
         deactivate(event) {
             const input = event.target;
             this.isActive = false;
@@ -156,58 +145,30 @@ export default {
                     input.setAttribute('placeholder', this.inputPlaceholder)
                 }
             }
-            if(this.errorProxy === null){
-                this.errorProxy = this.error
+            if(this.errorValue === null){
+                this.errorValue = this.error
             }
             this.showOptions = false
         },
-        loadData() {
-            if (this.mode === 'data') {
-                return
-            }
-            this.loading = true
-            axios.get(this.apiUrl)
-                .then((resp) => {
-                    this.optionsProxy = resp.data[this.responseDataLabel]
-                })
-                .catch((err) => {
-                })
-            .finally(() => {
-                this.loading = false
-            })
 
+        toggleLoading(){
+            this.loading = !this.loading
         },
-        setPlaceholder(val){
-            if(val){
-                this.$refs.input.setAttribute('placeholder', val)
-            }else{
-                this.$refs.input.setAttribute('placeholder', this.inputPlaceholder)
-            }
-        }
     },
-    watch: {
-        options(val) {
-            this.optionsProxy = val
-            this.setValuePlaceholder()
-        },
-        modelValue(val){
-            this.valueProxy = val
-            if(val === null){
-                this.setPlaceholder(this.placeholder)
-            }
-        },
-        error(val){
-            this.errorProxy = val
-        },
+    computed: {
+        computedOptions(){
+            return {...this.$typo.options, ...this.options};
+        }
     }
 }
 </script>
 
 <style lang="scss">
+@import "../../scss/typo";
 .typo-select{
     box-sizing: border-box;
     position: relative;
-    z-index: 9;
+    //z-index: 9;
     .typo-select{
         &__toggle{
             cursor: pointer;
@@ -230,6 +191,30 @@ export default {
                 }
 
             }
+            &.loading{
+                .typo-select__loading-indy{
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 10px;
+                    &:after{
+                        content: "";
+                        display: block;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        border-width: 2px;
+                        border-style: solid;
+                        border-color: #0091da transparent #0091da transparent;
+                        animation: loading-ring 1.4s linear infinite;
+                        filter: none;
+                        background: none;
+                    }
+                }
+
+            }
         }
         &__dropdown{
             width: 100%;
@@ -238,7 +223,7 @@ export default {
             z-index: 99;
             margin: 0;
             padding: 0;
-            top: calc(3em + 23px);
+            top: calc(100% - 10px);
             box-sizing: border-box;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
@@ -269,14 +254,26 @@ export default {
     }
     &:not(.open){
         .typo-select__toggle{
-            input{
-                &:hover + .clear__button{
-                    visibility: visible;
+            &:not(.loading){
+                input{
+                    &:hover + .clear__button{
+                        visibility: visible;
+                    }
                 }
             }
         }
     }
 }
+
+@keyframes loading-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .typo-select.disabled{
     cursor: not-allowed;
 }
