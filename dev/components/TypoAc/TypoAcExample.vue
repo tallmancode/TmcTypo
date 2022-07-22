@@ -13,8 +13,8 @@
                     :searchMethod="test"/>
         </div>
         <div class="col-6">
-            <button class="btn btn__accent" @click="toggleTextareaClear">Clear Auto Complete</button>
-            <button class="btn btn__primary" @click="toggleTextareaError">Toggle Error</button>
+            <button class="btn btn__accent" @click="toggleInputClear">Clear Auto Complete</button>
+            <button class="btn btn__primary" @click="toggleInputError">Toggle Error</button>
         </div>
     </div>
 </template>

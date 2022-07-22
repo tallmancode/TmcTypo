@@ -11,12 +11,6 @@
                         :label="'Text Input'"/>
         </div>
         <div class="col-6">
-            <typo-input v-model="value"
-                        v-model:error="error"
-                        :name="'text_input_2'"
-                        :label="'Text Input 2'"/>
-        </div>
-        <div class="col-6">
             <button class="btn btn__accent" @click="toggleInputClear">Clear Input</button>
             <button class="btn btn__primary" @click="toggleInputError">Toggle Error</button>
         </div>
