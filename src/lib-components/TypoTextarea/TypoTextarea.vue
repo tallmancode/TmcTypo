@@ -60,6 +60,7 @@ export default {
 <style lang="scss">
 .typo{
     &__textarea{
+        font-family: inherit;
         box-sizing: border-box;
         width: 100%;
         margin: 1em 0 0.5em;

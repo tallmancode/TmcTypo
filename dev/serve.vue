@@ -21,6 +21,40 @@ import TypoAcExample from "./components/TypoAc/TypoAcExample";
 export default defineComponent({
     name: 'ServeDev',
     components: {TypoInputExample, TypoTextareaExample, TypoSwitchExample, TypoSelectExample, TypoAcExample},
+    data(){
+        return{
+            selectOptions: {
+                error: false,
+                value:  null
+            },
+            inputOptions: {
+                error: false,
+                value:  null
+            }
+        }
+    },
+    methods: {
+        toggleSelectError(){
+            if(this.selectOptions.error){
+                this.selectOptions.error = false
+            }else{
+                this.selectOptions.error = "Select Error"
+            }
+        },
+        toggleSelectClear(){
+            this.selectOptions.value = null
+        },
+        toggleInputError(){
+            if(this.inputOptions.error){
+                this.inputOptions.error = false
+            }else{
+                this.inputOptions.error = "Input Error"
+            }
+        },
+        toggleInputClear(){
+            this.inputOptions.value = null
+        }
+    }
 });
 </script>
 

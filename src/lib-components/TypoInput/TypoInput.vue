@@ -6,12 +6,12 @@
         ]">
         <label v-if="label"
                :data-error="errorValue"
-               :for="id"
+               :for="uuid()"
                :data-label="computedOptions.labelType === 'overlay' ? label : null"
                class="typo__label">
             {{ (computedOptions.labelType === 'standard'? label : '')}}
         </label>
-        <input :id="id"
+        <input :id="uuid()"
                v-model="inputValue"
                :name="name"
                :type="type" class="typo__input"
@@ -26,6 +26,19 @@ export default {
     name: 'TypoInput',
     props: propsApi,
     setup(props, {emit}) {
+        const uuid = () => {
+            let name = props.name.match(
+                /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+                .map(s => s.toLowerCase())
+                .join('_');
+
+            let alphaNum = Math.random().toString(36).split('').filter( function(value, index, self) {
+                return self.indexOf(value) === index;
+            }).join('').substr(2,8);
+
+            return name+'_'+alphaNum
+        }
+
         const inputValue = computed({
             get: () => props.modelValue,
             set: (value) => emit('update:modelValue', value),
@@ -38,7 +51,8 @@ export default {
 
         return {
             inputValue,
-            errorValue
+            errorValue,
+            uuid
         };
     },
     computed: {

@@ -3,6 +3,12 @@
 import * as components from '@/lib-components/index';
 import optionsApi from "./optionsApi";
 
+const defaultOptions = {
+  wrapperClass: ''
+}
+
+// install function executed by Vue.use()
+
 const install = function installTmcTypo(app, options) {
 
   let globalOptions = {...optionsApi, ...options};
@@ -15,7 +21,6 @@ const install = function installTmcTypo(app, options) {
 
     app.component(componentName, component);
   });
-
 
 };
 
